@@ -9,10 +9,10 @@
 #
 
 # Token de acceso del bot de Telegram
-TOKEN="6713386715:AAEeWOWQaeordv1Ev2yaCbMPsrD4ULt9C5U"
+TOKEN="Introduce el token de tu bot"
 
 # ID del chat donde se enviarán las notificaciones
-CHAT_ID="1187883983"
+CHAT_ID="Introduce el ID de tu chat"
 
 # Mensaje que se enviará como notificación
 MESSAGE="$1"
@@ -54,10 +54,3 @@ esac
 
 # Enviar el mensaje final
 send_telegram_message "$MESSAGE"
-
-
-
-
-
-
-* * * * * /usr/bin/logger -t CRON "Starting /opt/prueba3.py" && /opt/telegram_notify.sh "Starting /opt/prueba3.py" && python3 /opt/prueba3.py  && /usr/bin/logger -t CRON "Finished /opt/prueba3.py" && /opt/telegram_notify.sh "Finished /opt/prueba3.py"
