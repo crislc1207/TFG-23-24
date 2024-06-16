@@ -48,10 +48,9 @@ def download_file(drive, folder, file_name):
     file_list = drive.ListFile({'q': f"title='{file_name}' and '{folder['id']}' in parents"}).GetList()
     if file_list:
         file1 = file_list[0]  # toma el primer archivo que coincide
-        print(f'Descargando archivo: {file1["title"]}')
         file1.GetContentFile(file_name)  # descarga el archivo
-    else:
-        print(f'Archivo no encontrado: {file_name}')
+    #else:
+        #print(f'Archivo no encontrado: {file_name}')
 
 def upload_file(drive, folder, file_path):
     """
@@ -66,30 +65,31 @@ def upload_file(drive, folder, file_path):
     file1 = drive.CreateFile({'title': file_name, 'parents': [{'id': folder['id']}]})  # Crea un archivo de GoogleDrive en la carpeta.
     file1.SetContentFile(file_path)  # Establece contenido del archivo
     file1.Upload()  # Sube el archivo.
-    print(f'Archivo subido: {file1["title"]}')
+    #print(f'Archivo subido: {file1["title"]}')
 
 def main():
     # Parsea los argumentos de la línea de comandos
     parser = argparse.ArgumentParser(description='Sube o descarga un archivo a Google Drive.')
     parser.add_argument('accion', type=str, help='La acción a realizar: "subir" o "descargar".')
-    parser.add_argument('archivo', type=str, help='El nombre del archivo.')
+    parser.add_argument('carpeta', type=str, help='El nombre de la carpeta.')
+    parser.add_argument('fichero', type=str, help='El nombre del fichero.')
     args = parser.parse_args()
 
     # Autenticación
-    drive = authenticate('/ruta/credentials.json')
+    drive = authenticate('/opt/admin/credentials.json')
 
     # Busca la carpeta por su nombre
-    folder = find_folder(drive, 'Aqui_va_el_nombre_de_tu_carpeta')
+    folder = find_folder(drive, args.carpeta)
     if folder is not None:
-        print(f'Carpeta encontrada: {folder["title"]}')
+        #print(f'Carpeta encontrada: {folder["title"]}')
         if args.accion == 'descargar':
-            download_file(drive, folder, args.archivo)
+            download_file(drive, folder, args.fichero)
         elif args.accion == 'subir':
-            upload_file(drive, folder, args.archivo)
+            upload_file(drive, folder, args.fichero)
         else:
             print('Acción no reconocida. Por favor, especifica "subir" o "descargar".')
     else:
-        print('Carpeta no encontrada: TFG')
+        print(f'Carpeta no encontrada: {args.carpeta}')
 
 if __name__ == '__main__':
     main()
